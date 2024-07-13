@@ -1,8 +1,9 @@
 name: fast-app-deploy
 on: [push,workflow_dispatch]
 env:
-  BACKEND_VERSION: ghcr.io/tenzinsamten/todoapp:9920558739-303f364
+  BACKEND_VERSION: tenzinsamten/todoapp:9920558739-303f364
   DEPLOYMENT_HOOK: https://api.render.com/deploy/srv-cq98rpqju9rs73b21o80?key=9k9IW5bdKRg&imgURL=
+  RENDER_API_KEY: rnd_NhjCWgXqzFNqEvLAX6Lu2jj57NsH
 
 jobs:
   deploy-backend:
@@ -16,5 +17,10 @@ jobs:
           echo "IMAGE_TAG=${{ github.run_id }}-$ENCODED_BACKEND_VERSION" >> $GITHUB_ENV
           echo ${{ env.DEPLOYMENT_HOOK }}${{ env.BACKEND_VERSION }}
       - name: Deploy to backend
-        run: |
-          curl -X POST ${{ env.DEPLOYMENT_HOOK }}${{ env.BACKEND_VERSION }}
+        uses: gh-actions-workflows/deploy-docker-render@v1.1
+        with:
+          deploy-hook: ${{ env.DEPLOYMENT_HOOK }}
+          image-url: ${{ env.BACKEND_VERSION }}
+          render-api-key: ${{ env.RENDER_API_KEY }}
+          wait-for-deployment: true
+          docker-repo-prefix: ghcr.io
