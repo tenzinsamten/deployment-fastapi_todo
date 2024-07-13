@@ -1,0 +1,18 @@
+name: fast-app-deploy
+on: [push,workflow_dispatch]
+env:
+  BACKEND_VERSION: ghcr.io/tenzinsamten/todoapp:0.0.2
+
+jobs:
+  deploy-backend:
+    runs-on: ubuntu-latest
+    steps:
+      - name: URL encode version
+        id: urlencoded_image
+        run: |
+          ENCODED_BACKEND_VERSION=$(python -c 'import urllib.parse; print(urllib.parse.quote("'$BACKEND_VERSION'"))')
+          echo "Encoded BACKEND_VERSION: $ENCODED_BACKEND_VERSION"
+          echo "IMAGE_TAG=${{ github.run_id }}-$ENCODED_BACKEND_VERSION" >> $GITHUB_ENV
+          echo "::set-env name=ENCODED_BACKEND_VERSION::$ENCODED_BACKEND_VERSION"
+      - name: Deploy to backend
+        run: echo ${{ secrets.DEPLOYMENT_HOOK }}${{ env.IMAGE_TAG }}
