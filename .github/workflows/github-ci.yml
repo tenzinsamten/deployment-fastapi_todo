@@ -1,7 +1,7 @@
 name: fast-app-deploy
 on: [push,workflow_dispatch]
 env:
-  BACKEND_VERSION: ghcr.io/tenzinsamten/todoapp:9920558739-303f364
+  BACKEND_VERSION: ghcr.io/tenzinsamten/todoapp:9920837097-7b4f6be
 
 jobs:
   deploy-backend:
