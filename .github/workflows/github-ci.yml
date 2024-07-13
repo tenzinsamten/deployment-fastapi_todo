@@ -2,6 +2,7 @@ name: fast-app-deploy
 on: [push,workflow_dispatch]
 env:
   BACKEND_VERSION: ghcr.io%2Ftenzinsamten%2Ftodoapp%3A9920558739-303f364
+  DEPLOYMENT_HOOK: https://api.render.com/deploy/srv-cq98rpqju9rs73b21o80?key=9k9IW5bdKRg&imgURL=
 
 jobs:
   deploy-backend:
@@ -13,6 +14,7 @@ jobs:
           ENCODED_BACKEND_VERSION=$(python -c 'import urllib.parse; print(urllib.parse.quote("'$BACKEND_VERSION'"))')
           echo "Encoded BACKEND_VERSION: $ENCODED_BACKEND_VERSION"
           echo "IMAGE_TAG=${{ github.run_id }}-$ENCODED_BACKEND_VERSION" >> $GITHUB_ENV
+          echo ${{ env.DEPLOYMENT_HOOK }}${{ env.BACKEND_VERSION }}
       - name: Deploy to backend
         run: |
-          curl -X POST ${{ secrets.DEPLOYMENT_HOOK }}${{ env.BACKEND_VERSION }}
+          curl -X POST ${{ env.DEPLOYMENT_HOOK }}${{ env.BACKEND_VERSION }}
