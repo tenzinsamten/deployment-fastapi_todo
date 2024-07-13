@@ -1,7 +1,7 @@
 name: fast-app-deploy
 on: [push,workflow_dispatch]
 env:
-  BACKEND_VERSION: ghcr.io/tenzinsamten/todoapp:0.0.2
+  BACKEND_VERSION: ghcr.io/tenzinsamten/todoapp:9920558739-303f364
 
 jobs:
   deploy-backend:
@@ -15,4 +15,4 @@ jobs:
           echo "IMAGE_TAG=${{ github.run_id }}-$ENCODED_BACKEND_VERSION" >> $GITHUB_ENV
       - name: Deploy to backend
         run: |
-          echo "Deployment Hook Secret: ${{ secrets.DEPLOYMENT_HOOK }}"
+          curl -X POST ${{ secrets.DEPLOYMENT_HOOK }}${{ env.IMAGE_TAG }}
