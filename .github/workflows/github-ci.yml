@@ -1,7 +1,7 @@
 name: fast-app-deploy
 on: [push,workflow_dispatch]
 env:
-  BACKEND_VERSION: ghcr.io%2Ftenzinsamten%2Ftodoapp%3A9920558739-303f364
+  BACKEND_VERSION: ghcr.io/tenzinsamten/todoapp:9920558739-303f364
   DEPLOYMENT_HOOK: https://api.render.com/deploy/srv-cq98rpqju9rs73b21o80?key=9k9IW5bdKRg&imgURL=
 
 jobs:
