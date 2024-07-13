@@ -14,4 +14,4 @@ jobs:
           echo "Encoded BACKEND_VERSION: $ENCODED_BACKEND_VERSION"
           echo "IMAGE_TAG=${{ github.run_id }}-$ENCODED_BACKEND_VERSION" >> $GITHUB_ENV
       - name: Deploy to backend
-        run: echo ${{ secrets.DEPLOYMENT_HOOK }}${{ env.IMAGE_TAG }}
+        run: echo ${{ secrets.DEPLOYMENT_HOOK }}
